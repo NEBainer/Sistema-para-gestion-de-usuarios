@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sistema de Gestión de Usuarios</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- CSS propio -->
+    <link rel="stylesheet" href="./css/estilos.css">
+</head>
+
+<body>
+
+    <div class="container mt-4">
+
+        <!-- Título -->
+        <h1 class="mb-4">
+            Sistema de Gestión de Usuarios
+        </h1>
+
+        <!-- Alertas -->
+        <div id="contenedorAlertas"></div>
+
+        <!-- Spinner -->
+        <div id="spinner" class="text-center d-none mb-3">
+            <div class="spinner-border"></div>
+        </div>
+
+        <!-- Formulario -->
+        <form id="formUsuario" class="row g-3">
+
+            <!-- Nombre -->
+            <div class="col-md-6">
+                <label for="name" class="form-label">
+                    Nombre
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-control"
+                    required
+                >
+            </div>
+
+            <!-- Usuario -->
+            <div class="col-md-6">
+                <label for="username" class="form-label">
+                    Usuario
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-control"
+                    required
+                >
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6">
+                <label for="email" class="form-label">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    required
+                >
+            </div>
+
+            <!-- Teléfono -->
+            <div class="col-md-6">
+                <label for="phone" class="form-label">
+                    Teléfono
+                </label>
+
+                <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    class="form-control"
+                    required
+                >
+            </div>
+
+            <!-- Botón -->
+            <div class="col-12">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="botonAgregar"
+                >
+                    Agregar Usuario
+                </button>
+            </div>
+
+        </form>
+        <!-- Tabla -->
+        <div class="mt-5">
+
+            <table class="table table-striped table-hover">
+
+                <thead class="table-dark">
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Ciudad</th>
+                        <th>Empresa</th>
+                        <th>Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="tbodyUsuarios">
+
+                </tbody>
+
+            </table>
+
+        </div>
+                <!-- Boton para exportar el CSV -->
+        <button id="btnExportarCSV" class="btn btn-success mb-3">Exportar CSV</button>
+
+    </div>
+
+    <script src="./js/manejadora.js"></script>
+
+</body>
+</html>
+

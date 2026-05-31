@@ -1,0 +1,17 @@
+body{
+    padding: 20px;
+}
+
+h1{
+    text-align: center;
+}
+
+table{
+    margin-top: 20px;
+}
+
+#contenedorAlertas{
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+}
