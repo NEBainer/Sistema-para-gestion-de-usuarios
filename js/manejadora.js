@@ -11,6 +11,8 @@ const formularioUsuarios = document.getElementById("formUsuario");
 
 const contenedorAlertas = document.getElementById("contenedorAlertas");
 
+const spinner = document.getElementById("spinner");
+
 const btnExportarCSV = document.getElementById("btnExportarCSV");
 
 //CARGAMOS LISTA DE USUARIOS
@@ -21,6 +23,7 @@ async function obtenerUsuarios() {
     //INTENTAMOS CARGARLA DESDE EL LOCALSTORAGE
     try {
 
+        mostrarSpinner();
         const usuariosGuardados =
             localStorage.getItem("usuarios");
 
@@ -57,6 +60,10 @@ async function obtenerUsuarios() {
     catch(error) {
         console.error(error);
         alert(error.message);
+    }
+
+    finally{
+        ocultarSpinner();
     }
 
 }
@@ -120,6 +127,7 @@ async function manejarSubmit(evento){
     
     if(idUsuarioEditando === null){
         try{
+            mostrarSpinner();
             const usuarioCreado = await crearUsuario(datos);
             //Para que no tenga el mismo ID
             const nuevoId = Math.max(...usuarios.map(u => u.id)) + 1; 
@@ -150,8 +158,14 @@ async function manejarSubmit(evento){
             console.error(error);
             alert(error.message);
         }
+
+        finally{
+        ocultarSpinner();
+        }
+
     } else {
         try{
+            mostrarSpinner();
             console.log("ID:", idUsuarioEditando);
             console.log("Datos:", datos);
             // JSONPlaceholder devuelve error con IDs creados localmente
@@ -187,6 +201,10 @@ async function manejarSubmit(evento){
         catch(error){
             console.error(error);
             alert(error.message);
+        }
+
+        finally{
+        ocultarSpinner();
         }
 
     }
@@ -241,17 +259,57 @@ function manejarClickTabla(event){
 }
 
 //FUNCIONES PARA ELIMINAR USUARIOS
-function eliminarUsuario(event){
+async function eliminarUsuario(event){
+
     const id = Number(event.target.dataset.id);
+
     if(confirmarEliminacion(id)){
-        usuarios = usuarios.filter(
-            usuario => usuario.id !== id
-        );
-        localStorage.setItem("usuarios", JSON.stringify(usuarios));
-        renderizarUsuarios(usuarios);
-        mostrarAlerta("Usuario eliminado correctamente","danger");
-        console.log(`Usuario ${id} eliminado`);
+
+        try{
+
+            mostrarSpinner();
+
+            if(id <= 10){
+
+                await fetch(
+                    `https://jsonplaceholder.typicode.com/users/${id}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+            }
+
+            usuarios = usuarios.filter(
+                usuario => usuario.id !== id
+            );
+
+            localStorage.setItem(
+                "usuarios",
+                JSON.stringify(usuarios)
+            );
+
+            renderizarUsuarios(usuarios);
+
+            mostrarAlerta(
+                "Usuario eliminado correctamente",
+                "danger"
+            );
+
+        }
+        catch(error){
+
+            console.error(error);
+
+        }
+        finally{
+
+            ocultarSpinner();
+
+        }
+
     }
+
 }
 
 function confirmarEliminacion(idAEliminar){
@@ -279,6 +337,7 @@ function editarUsuario(event){
 }
 
 async function actualizarUsuario(id, usuario){
+
     console.log(id);
     console.log(usuario);
 
@@ -300,6 +359,15 @@ async function actualizarUsuario(id, usuario){
     }
 
     return await respuesta.json();
+}
+
+//FUNCIONES PARA SPINNER
+function mostrarSpinner(){
+    spinner.classList.remove("d-none");
+}
+
+function ocultarSpinner(){
+    spinner.classList.add("d-none");
 }
 
 //EVENTO PARA EXPORTAR CSV
